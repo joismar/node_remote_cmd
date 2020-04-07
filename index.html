@@ -1,0 +1,110 @@
+<!-- index.html -->
+<html>
+	<head>
+		<title>Chat Real-time</title>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script>
+			var socket = io.connect('http://' + document.domain + ':' + location.port);
+			$(document).ready(
+				function() {
+					$("#root").html("\\\\" + document.domain + '@HOST > <input type="text" id="terminal" style="width:600px;" autocomplete="off">');
+					$("#terminal").focus();
+					result = '<br>';
+				}
+			)
+
+			$(document).keyup(
+				function(e) {
+					if (e.keyCode == 13) {
+						var result = $('#label').html();
+						var root = "\\\\" + document.domain + "@HOST > ";
+						var tmp = $("#terminal").val();
+						socket.emit('toServer', {text: tmp});
+						root = root + tmp;
+						$('#terminal').val('');
+						result = result + root;
+						result = result + '<br>';
+						$('#label').html(result);
+						$('html, body').animate({
+							scrollTop: $("#terminal").offset().top
+						}, 1);
+					}
+				}
+			)
+
+			$(document).click(
+				function(e) {
+					$("#terminal").focus();
+				}
+			)
+
+			socket.on('toClient', function (msg) {
+				var result = $('#label').html();
+				var root = "\\\\" + document.domain + "@HOST > ";
+				root = root + msg;
+				$('#terminal').val('');
+				result = result + root;
+				result = result + '<br>';
+				$('#label').html(result);
+				$('html, body').animate({
+					scrollTop: $("#terminal").offset().top
+				}, 1);
+			});
+		</script>
+		<style>
+			body {
+				background-color: #1D1E22;
+			}
+
+			p {
+				display: inline;
+			}
+
+			a,
+			a:hover {
+				color: white;
+				text-decoration: none;
+			}
+
+			.console {
+				font-family: monospace;
+				font-size: 10pt;
+				color: white;
+				border: none;
+				padding: 0px;
+				outline: none;
+			}
+
+			#terminal {
+				font-family: monospace;
+				font-size: 10pt;
+				color: white;
+				background: #1D1E22;
+				border: none;
+				padding: 0px;
+				outline: none;
+			}
+		</style>
+	</head>
+	<body>
+  <div class="console">
+    <div class="version">
+      <p>CMD Terminal Output - Remote Script Executor</p>
+      <br>
+      <br>
+    </div>
+    <div class="updates">
+      Executando...
+      <br>
+      <br>
+    </div>
+    <div class="result">
+      <label id="label">
+      </label>
+    </div>
+    <div class="root" id="root">
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "node_remote_cmd",
+  "version": "0.0.1",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mssql": "^6.0.0",
+    "nodemon": "^1.19.4",
+    "simple-node-logger": "^18.12.23",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joismar/parvi_userferias.git"
+  },
+  "author": "Joismar Braga @ Grupo Parvi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joismar/parvi_userferias/issues"
+  },
+  "homepage": "https://github.com/joismar/parvi_userferias#readme",
+  "description": ""
+}

@@ -14,7 +14,7 @@ app.set('io', io)
 
 const router = express.Router();
 
-app.get('/install/:s?/:p?', (req, res, next) =>{
+app.get('/execute/:s?/:h?/:p?', (req, res, next) =>{
 	res.header('Access-Control-Allow-Origin', '*')
 	res.sendFile(__dirname + '/index.html')
 
@@ -25,7 +25,7 @@ app.get('/install/:s?/:p?', (req, res, next) =>{
 			var sparams = req.params.p.split(',')
 		}
 		else {
-			var sparams = []
+			var sparams = [req.params.h].concat([req.params.p])
 		}
 		var child = require('child_process').execFile(__dirname + '/' + req.params.s, 
 		sparams, { 
@@ -47,7 +47,7 @@ app.get('/install/:s?/:p?', (req, res, next) =>{
 						detached: true, 
 						stdio: [ 'ignore', 1, 2 ]
 					})
-					child.unref();
+					// child.unref();
 					child.stdout.on('data', function(data) {
 						console.log(data.toString())
 						socket.emit('toClient', data.toString());
